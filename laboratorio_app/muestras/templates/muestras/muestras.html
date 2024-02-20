@@ -1,0 +1,60 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3,h4,h5,h6 {
+    text-align:center;
+    }
+
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+a{
+ color:darkgreen;
+}
+a:hover{
+ color:green;
+ text-decoration: none;
+}
+.dataTables_wrapper {
+    position: relative;
+    clear: both;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+<h3><img src="{% static 'images/muestra.png'%}" height="50px">Muestras</h3>
+<table style="width:95%;" id="tabla_muestras" class="display">
+    <thead>
+    <tr>
+        <th> Muestras</th>
+        <th> Clientes</th>
+        <th> Fecha</th>
+        <th> Muestreo</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {%for muestra in object_list%}
+    <tr>
+        <td><a href="{%url 'muestra' muestra.pk %}"><img src="{% static 'images/muestra.png'%}"height="15"> {{muestra.nombre}}</a></td>
+        <td><a href="{%url 'cliente' muestra.muestreo.cliente.pk %}"><img src="{% static 'images/pacienteicon.png'%}"height="15"> {{muestra.muestreo.cliente}}</a></td>
+        <td><p><img src="{% static 'images/calendar.png'%}"height="15">{{muestra.muestreo.fecha}}</p></td>
+        <td><a href="{%url 'muestreo' muestra.muestreo.pk%}"><img src="{% static 'images/dietas.png'%}"height="20"> {{muestra.muestreo}}</a></td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+
+
+{%endblock%}

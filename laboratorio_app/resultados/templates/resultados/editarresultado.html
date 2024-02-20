@@ -1,0 +1,106 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+</style>
+<div id="content">
+
+
+    <h3><img src="{%static 'images/parametros.png'%}" height=40> {{muestra}}</h3>
+    <br>
+    <form action=""  method="post">{% csrf_token %}
+
+        {%for resultado in muestra.muestra_resultado.all%}
+        {%if resultado.muestra.numero_muestras == 5%}
+        <p>
+            <h5>{{resultado.parametro}}:</h5><label> ¿Quieres que aparezca en el informe?</label><select class="form-control form-control-sm" name="informe{{resultado.parametro}}" size="1" style="width:100px;"><option value=0>No</option>
+            <option value=1>Sí</option></select>
+        <br>
+          <p><label for="{{resultado.parametro}}1">N1</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n1" value="{{resultado.n1}}"></p>
+       <p> <label for="{{resultado.parametro}}2">N2</label>
+           <input type="text" id="fname" name="{{resultado.parametro}}n2" value="{{resultado.n2}}"></p>
+              <p><label for="{{resultado.parametro}}3">N3</label>
+                  <input type="text" id="fname" name="{{resultado.parametro}}n3" value="{{resultado.n3}}"></p>
+              <p><label for="{{resultado.parametro}}4">N4</label>
+                  <input type="text" id="fname" name="{{resultado.parametro}}n4" value="{{resultado.n4}}"></p>
+              <p><label for="{{resultado.parametro}}5">N5</label>
+                  <input type="text" id="fname" name="{{resultado.parametro}}n5" value="{{resultado.n5}}"></p>
+
+
+        {%endif%}
+
+        {%if resultado.muestra.numero_muestras == 4%}
+        <p>
+        <h5>{{resultado.parametro}}:</h5><label> ¿Quieres que aparezca en el informe?</label><select class="form-control form-control-sm" name="informe{{resultado.parametro}}" size="1" style="width:100px;"><option value=0>No</option>
+            <option value=1>Sí</option></select>
+        <br>
+        <p><label for="{{resultado.parametro}}1">N1</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n1" value="{{resultado.n1}}"></p>
+        <p> <label for="{{resultado.parametro}}2">N2</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n2" value="{{resultado.n2}}"></p>
+        <p><label for="{{resultado.parametro}}3">N3</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n3" value="{{resultado.n3}}"></p>
+        <p><label for="{{resultado.parametro}}4">N4</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n4" value="{{resultado.n4}}"></p>
+
+
+        {%endif%}
+
+        {%if resultado.muestra.numero_muestras == 3%}
+        <p>
+        <h5>{{resultado.parametro}}:</h5><label> ¿Quieres que aparezca en el informe?</label><select class="form-control form-control-sm" name="informe{{resultado.parametro}}" size="1" style="width:100px;"><option value=0>No</option>
+            <option value=1>Sí</option></select>
+        <br>
+        <p><label for="{{resultado.parametro}}1">N1</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n1" value="{{resultado.n1}}"></p>
+        <p> <label for="{{resultado.parametro}}2">N2</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n2" value="{{resultado.n2}}"></p>
+        <p><label for="{{resultado.parametro}}3">N3</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n3" value="{{resultado.n3}}"></p>
+
+
+
+        {%endif%}
+
+        {%if resultado.muestra.numero_muestras == 2%}
+        <p>
+        <h5>{{resultado.parametro}}:</h5><label> ¿Quieres que aparezca en el informe?</label><select class="form-control form-control-sm" name="informe{{resultado.parametro}}" size="1" style="width:100px;"><option value=0>No</option>
+            <option value=1>Sí</option></select>
+        <br>
+        <p><label for="{{resultado.parametro}}1">N1</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n1" value="{{resultado.n1}}"></p>
+        <p> <label for="{{resultado.parametro}}2">N2</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n2" value="{{resultado.n2}}"></p>
+
+
+
+        {%endif%}
+
+        {%if resultado.muestra.numero_muestras == 1%}
+        <p>
+        <h5>{{resultado.parametro}}:</h5><label> ¿Quieres que aparezca en el informe?</label><select class="form-control form-control-sm" name="informe{{resultado.parametro}}" size="1" style="width:100px;"><option value=0>No</option>
+            <option value=1>Sí</option></select>
+        <br>
+        <p><label for="{{resultado.parametro}}1">N1</label>
+            <input type="text" id="fname" name="{{resultado.parametro}}n1" value="{{resultado.n1}}"></p>
+
+
+
+        {%endif%}
+            {%endfor%}
+
+        <div style="text-align:center; padding:5%; "> <button type="submit" class="btn btn-warning"> Editar resultado</button></div>
+
+    </form>
+</div>
+
+{%endblock%}

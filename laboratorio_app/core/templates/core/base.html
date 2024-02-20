@@ -1,0 +1,225 @@
+{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <!-- Design by Free CSS Templates http://www.freecsstemplates.org Released for free under a Creative Commons Attribution 2.5 License -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> <title>{%block title%}Laboratorio{%endblock%}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <!-- css web -->
+    <link rel="icon" href="{%static 'images/laycoallogo.png'%}" type="image/gif">
+    <script src="{% static 'jQuery/jquery-3.4.1.min.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+    <!--bootstrap -->
+    <link rel="stylesheet" href="{%static 'Bootstrap/css/bootstrap.min.css'%}">
+    <script src="{% static 'Bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- DataTable -->
+    <link rel="stylesheet" href="{%static 'Datatable/datatable.min.css'%}">
+    <script src="{% static 'Datatable/datatable.min.js' %}"></script>
+    <script src="{% static 'Datatable/datatable_acents.js' %}"></script>
+    <script src="{% static 'Datatable/datatableload.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'fontawesome/fontawesome.min.css' %}">
+
+
+</head>
+<style>
+body {margin:0;}
+
+
+
+.topnav {
+    overflow: hidden;
+    padding-bottom: 0.5%;
+    padding-top: 0.5%;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%;
+    background-color:white;
+    z-index:300;
+    box-shadow: 1px 2px 25px rgba(100, 100, 100, 0.3);
+
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #253d25;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+.dropdowne {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdowne .dropbtn {
+  font-size: 17px;
+  border: none;
+  outline: none;
+  color: black;
+  font-weight: bold;
+  padding: 14px 16px;
+  background-color: white;
+  font-family: inherit;
+  margin: 0;
+}
+
+.dropdowne-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdowne-content a {
+  float: none;
+  color: black;
+  font-weight: bold;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.topnav a:hover, .dropdowne:hover .dropbtn {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.dropdowne-content a:hover {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.dropdowne:hover .dropdowne-content {
+  display: block;
+}
+#letrasnav{
+    float:left;
+    margin-right: 3%;
+    margin-left: 4%;
+
+  }
+
+@media screen and (max-width: 1100px) {
+  .topnav a:not(:first-child), .dropdowne .dropbtn {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+    border: solid 1px #253d25;
+    border-radius:10%;
+    margin-right: 3%;
+  }
+
+}
+
+@media screen and (max-width: 1100px) {
+
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav {
+    width: -webkit-fill-available;
+    position: fixed;
+    background-color: white;
+    z-index: 1001
+}
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .topnav.responsive .dropdowne {float: none;}
+  .topnav.responsive .dropdowne-content {position: relative;}
+  .topnav.responsive .dropdowne .dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+  #letrasnav {
+    float:none;
+    margin-right: 1%;
+    margin-top: 0.5%;
+}
+
+}
+#promofarma_fito_grande{
+    text-align: center;
+}
+#promofarma_fito_pequeño{
+    display: none;
+}
+@media screen and (max-width: 750px){
+#promofarma_fito_grande{
+    display:none;
+}
+#promofarma_fito_pequeño{
+    display: block;
+    text-align:center;
+}
+}
+</style>
+<body>
+<div class="topnav" id="myTopnav">
+    <a href="{%url 'portada'%}"><img border="0" alt="logo" src="{%static 'images/laycoallogo.png'%}" width="40" height="40"> LAYCOAL</a>
+    <div id="letrasnav">
+        <a style="display:none;"></a>
+        <a href="{%url 'muestreos'%}"><img width='35' src="/static/images/dietas.png"> Muestreos</a>
+        <a href="{%url 'muestras'%}"><img width='35' src="/static/images/muestra.png"> Muestras</a>
+        <a href="{%url 'clienteslist'%}"><img width='35' src="/static/images/pacienteicon.png"> Clientes</a>
+        <a href="{%url 'parametroslist'%}"><img width='35' src="/static/images/parametros.png"> Parámetros</a>
+        <a href="{%url 'calendar'%}"><img width='35' src="/static/images/calendar.png"> Calendario</a>
+        <a href="{% url 'admin:index' %}"><img width='35' src="/static/images/admin.png"> Admin</a>
+
+
+
+    </div>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</div>
+<br>
+<br>
+<br>
+<br>
+{%block content%}
+{%endblock%}
+</body>
+
+
+</html>

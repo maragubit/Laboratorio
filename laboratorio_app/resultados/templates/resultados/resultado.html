@@ -1,0 +1,118 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+    th{
+    width:190px;
+    }
+    @media only screen and (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+</style>
+<div id="content">
+    <h3><img src="{%static 'images/petri.png'%}" height=40><a href="{%url 'muestra' muestra.pk%}">{{object}}</a></h3>
+    {%if not muestra.muestra_resultado.all%}<div style="text-align:center; padding:5%; "> <button class="btn btn-success" onclick='window.location.href="{%url 'crearresultado' object.pk%}"'> Agregar resultados</button>
+</div>{%endif%}
+    <br>
+    <div id="parametros">
+        <table>
+            <tr>
+                <th style="min-width:230px;"><img src="{%static 'images/parametros.png'%}" height="20"> Parámetros</th>
+                {%if muestra.numero_muestras is 5 %}
+                <th>N1</th> <th>N2</th> <th>N3</th> <th>N4</th> <th>N5</th><th>Informe</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n5}} {%endif%}{%endfor%}</td><td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.get_informe_display}}{%endif%}{%endfor%}</td>
+
+            </tr>
+            {%endfor%}
+            {%endif%}
+            {%if muestra.numero_muestras is 4 %}
+            <th>N1</th> <th>N2</th> <th>N3</th> <th>N4</th><th>Informe</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%endif%}{%endfor%}</td><td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.get_informe_display}}{%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+
+            {%if muestra.numero_muestras is 3 %}
+            <th>N1</th> <th>N2</th> <th>N3</th><th>Informe</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td><td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.get_informe_display}}{%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+
+            {%if muestra.numero_muestras is 2 %}
+            <th>N1</th> <th>N2</th><th>Informe</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td><td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.get_informe_display}}{%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+
+            {%if muestra.numero_muestras is 1 %}
+            <th>N1</th><th>Informe</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td><td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.get_informe_display}}{%endif%}{%endfor%}</td>
+            </tr>
+
+            {%endfor%}
+
+            {%endif%}
+
+        </table>
+<br>
+    </div>
+    <br>
+        <div style="text-align:center">{%if muestra.muestra_resultado.all%}<button onclick='window.location.href="{%url 'editarresultado' object.pk%}"' class="btn btn-warning">Editar resultados</button> <button onclick="borrarresultado()" class="btn btn-danger">Borrar resultados</button>{%endif%}
+
+            <button hidden id="borrar" onclick="window.location.href='{%url 'borrarresultado' object.pk %}'"></button>
+        </div>
+<br>
+            <script>
+function borrarresultado() {
+        var r = confirm("¿Estás seguro de que deseas borrar estos resultados?")
+        if (r == true) {
+            document.getElementById("borrar").onclick()
+        }
+    };
+</script>
+
+
+{%endblock%}
+

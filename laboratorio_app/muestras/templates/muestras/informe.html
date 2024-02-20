@@ -1,0 +1,240 @@
+{%load static%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <!-- Design by Free CSS Templates http://www.freecsstemplates.org Released for free under a Creative Commons Attribution 2.5 License -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> <title>{%block title%}Laboratorio{%endblock%}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <!-- css web -->
+    <link rel="icon" href="{%static 'images/logo.png'%}" type="image/gif">
+    <script src="{% static 'jQuery/jquery-3.4.1.min.js' %}"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+
+
+    <!--bootstrap -->
+    <link rel="stylesheet" href="{%static 'Bootstrap/css/bootstrap.min.css'%}">
+    <script src="{% static 'Bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- DataTable -->
+    <link rel="stylesheet" href="{%static 'Datatable/datatable.min.css'%}">
+    <script src="{% static 'Datatable/datatable.min.js' %}"></script>
+    <script src="{% static 'Datatable/datatable_acents.js' %}"></script>
+    <script src="{% static 'Datatable/datatableload.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'fontawesome/fontawesome.min.css' %}">
+
+    <style type="text/css">
+ @page {
+            size: A4;
+            margin: 1cm;
+            margin-top:4cm;
+            margin-bottom:5cm;
+            background-image: url('/static/images/laycoal.jpg');
+        }
+
+
+#referencia{
+text-align:right;
+float:right;
+}
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+    th{
+    width:190px;
+    }
+    @media only screen and (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+.informe h2,h3,h4,h5 {
+text-align:left;
+padding:0px;
+
+}
+#tablainforme{
+width:100%;
+margin-left:auto;
+margin-right:auto;
+text-align:center;
+}
+
+#tablainforme table,th,td{
+
+border: solid 1px black;
+text-align:center;
+padding: 5px;
+}
+
+
+</style>
+</head>
+
+<body>
+
+    <div id="informeimpresion" style="width:100%; margin:2%;">
+        <div style="height: 200px;"> </div>
+    <div class="container-fluid">
+    <div class="informe" style="margin-left:0%; margin-right:0%;top:100;">
+        <div class="row">
+            <div class="col-12-md" style="heigth:200px;">
+            </div>
+        </div>
+              <div class="row">
+        <div class="col-md-12">
+        <h4 id="referencia"> Nº Referencia: {{muestra.numero_referencia_informe}}</h4>
+        <p><h4>Empresa: <span id="empresa" style="text-align:center; font-size:15px;">{{muestra.muestreo.cliente|upper}}</span></h4></p>
+        <h4>Dirección: <span style="text-align:center;">{{muestra.muestreo.cliente.direccion}}</span> </h4>
+        <h4>Actividad: {{muestra.muestreo.cliente.actividad}}</h4>
+        <h4>Muestra tomada: <span style="font-size:12px;">{%if muestra.superficie == 'SI'%}CONTROL DE LIMPIEZA Y DESINFECCION{%else%}{{muestra.nombre|upper}}{%endif%}</span></h4>
+        <h4>Información adicional sobre la muestra: {{muestra.observaciones}}</h4>
+        <h4>Fecha de la toma de muestra y entrada en laboratorio: {{muestra.muestreo.fecha}}</h4>
+        <h4>Transporte: {{muestra.transporte}}</h4>
+        {%if muestra.superficie == 'SI'%}
+        <h4>Muestreo realizado por: Personal de LAYCOAL</h4>
+        <h4>Método de muestreo: PLACA POR CONTACTO</h4>
+        {%endif%}
+        </div>
+    </div>
+    </div>
+    </div>
+
+        <br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        {%if muestra.superficie == 'NO'%}
+        {%if muestra.numero_muestras == 5%}
+        <table id="tablainforme">
+            <tr>
+                <th>Parámetro</th><th>Método de ensayo</th><th>muestra 1</th><th>muestra 2</th><th>muestra 3</th><th>muestra 4</th><th>muestra 5</th>
+            </tr>
+            {%for resultado in muestra.muestra_resultado.all%}
+            {%if resultado.informe == 1%}
+            <tr>
+                <td>{{resultado.parametro.nombre_informe}}</td><td>{{resultado.parametro.metodo_ensayo}}</td> <td>{{resultado.n1}} {%if resultado.parametro.presencia == 'NO'%}ufc/g{%endif%}</td> <td>{{resultado.n2}} {%if resultado.parametro.presencia == 'NO'%}ufc/g{%endif%}</td> <td>{{resultado.n3}} {%if resultado.parametro.presencia == 'NO'%}ufc/g{%endif%}</td><td>{{resultado.n4}} {%if resultado.parametro.presencia == 'NO'%}ufc/g{%endif%}</td><td>{{resultado.n5}} {%if resultado.parametro.presencia == 'NO'%}ufc/g{%endif%}</td>
+            </tr>
+            {%endif%}
+            {%endfor%}
+
+        </table>
+        {%endif%}
+        {%if muestra.numero_muestras == 4%}
+        <table id="tablainforme">
+            <tr>
+                <th>Parámetro</th><th>Método de ensayo</th><th>muestra 1</th><th>muestra 2</th><th>muestra 3</th><th>muestra 4</th>
+            </tr>
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro.nombre_informe}}</td><td>{{parametro.metodo_ensayo}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td><td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+
+        </table>
+        {%endif%}
+        {%if muestra.numero_muestras == 3%}
+        <table id="tablainforme">
+            <tr>
+                <th>Parámetro</th><th>Método de ensayo</th><th>muestra 1</th><th>muestra 2</th><th>muestra 3</th>
+            </tr>
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro.nombre_informe}}</td><td>{{parametro.metodo_ensayo}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+
+        </table>
+        {%endif%}
+        {%if muestra.numero_muestras == 2%}
+        <table id="tablainforme">
+            <tr>
+                <th>Parámetro</th><th>Método de ensayo</th><th>muestra 1</th><th>muestra 2</th>
+            </tr>
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro.nombre_informe}}</td><td>{{parametro.metodo_ensayo}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%}  {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+
+        </table>
+        {%endif%}
+        {%if muestra.numero_muestras == 1%}
+        <table id="tablainforme">
+            <tr>
+                <th>Parámetro</th><th>Método de ensayo</th><th>muestra 1</th>
+            </tr>
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro.nombre_informe}}</td><td>{{parametro.metodo_ensayo}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%if parametro.presencia == 'NO'%}ufc/g{%endif%} {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+
+        </table>
+        {%endif%}
+
+        {%endif%}
+
+        {%if muestra.superficie == 'SI'%}
+        <table id="tablainforme">
+            <tr>
+                <th>SUPERFICIE</th><th>RCTO. AEROBIAS</th><th>RCTO. ENTEROBACTERIAS</th>
+            </tr>
+            {%for muestra in muestras%}
+            <tr>
+                <td>{{muestra.nombre}}</td>{%for parametro in muestra.parametros.all%}{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}<td style="text-align:center">{{resultado.n1}} cm3</td>{%endif%}{%endfor%}{%endfor%}
+            </tr>
+            {%endfor%}
+            </table>
+            <p>Interpretación de Resultados:</p>
+           <p>Valores medios del número de colonias:</p>
+            <table>
+                <tr>
+                <th> </th> <th>Valores aceptables</th><th>Valores inaceptables</th>
+                </tr>
+                <tr>
+                    <td>Recuento Colonias aerobias:</td> <td style="text-align:center">0-10/cm2</td> <td style="text-align:center">> 10/cm2</td>
+                </tr>
+                <tr>
+                    <td>Recuento Enterobacterias:</td> <td style="text-align:center">0-1/cm2</td> <td style="text-align:center">> 1/cm2</td>
+
+                </tr>
+            </table>
+        <br>
+                Decisión de la Comisión 2001/471/CE de 8/06/2001(DOCE 21/06/2001) derogada por la Decisión 2006/765/CE del 6 noviembre
+            2006 DOCE 18/11/06.
+
+        {%endif%}
+        <br>
+        <p><b>Observaciones:</b></p>
+        {{muestra.observaciones_informe}}
+
+</div>
+    </div>
+</div>
+
+</div>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,127 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+    th{
+    width:190px;
+    }
+    @media only screen and (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+</style>
+<div id="content">
+
+<h2><img src="{%static 'images/dietas.png'%}" height=40>{{object}} {{object.cliente}}</h2>
+<br>
+    <div style="text-align:center">
+    <button  class="btn btn-success" onclick='window.location.href="{%url 'nuevamuestra' object.pk %}"'><i class="fa fa-plus" aria-hidden="true"></i> Añadir muestra</button>
+    </div>
+    <br>
+    <hr>
+    <h4>Lista de muestras recolectadas en este muestreo: </h4>
+    <br>
+    {%for muestra in object.muestra_muestreo.all reversed %}<h5><img src="{%static 'images/muestra.png'%}" height=30> <a href="{%url 'muestra' muestra.id%}">{{muestra}}</a></h5>
+    <div id="parametros">
+        <table>
+            <tr>
+                <th style="min-width:230px;"><img src="{%static 'images/parametros.png'%}" height="20"> Parámetros</th>
+                {%if muestra.numero_muestras is 5 %}
+                <th>N1</th> <th>N2</th> <th>N3</th> <th>N4</th> <th>N5</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n5}} {%endif%}{%endfor%}</td>
+
+            </tr>
+            {%endfor%}
+            {%endif%}
+            {%if muestra.numero_muestras is 4 %}
+            <th>N1</th> <th>N2</th> <th>N3</th> <th>N4</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+
+            {%if muestra.numero_muestras is 3 %}
+            <th>N1</th> <th>N2</th> <th>N3</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+
+            {%if muestra.numero_muestras is 2 %}
+            <th>N1</th> <th>N2</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+
+            {%if muestra.numero_muestras is 1 %}
+            <th>N1</th>
+            </tr>
+
+            {%for parametro in muestra.parametros.all%}
+            <tr>
+                <td>{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td>
+            </tr>
+
+            {%endfor%}
+
+            {%endif%}
+
+        </table>
+
+
+    </div>
+    <hr>
+    {%endfor%}
+<br>
+</div>
+
+<div style="text-align:center; padding:5%; "> <button class="btn btn-warning" onclick='window.location.href="{%url 'editarmuestreo' object.pk %}"'><i class="fa fa-edit"></i> Editar muestreo</button> <button class="btn btn-danger" onclick='borrarmuestreo()'><i class="fa fa-trash" aria-hidden="true"></i> Borrar muestreo</button></div>
+</div>
+<button hidden id="borrar" onclick="window.location.href='{%url 'borrarmuestreo' object.pk %}'"></button>
+
+
+<script>
+function borrarmuestreo(){
+        var r = confirm("¿Estás seguro que deseas borrar este muestreo?\nSi lo borras, borrarás también las muestras asociadas.")
+        if (r == true) {
+            document.getElementById("borrar").onclick()
+        }
+    };
+</script>
+{%endblock%}

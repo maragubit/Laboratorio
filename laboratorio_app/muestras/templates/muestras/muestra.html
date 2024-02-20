@@ -1,0 +1,143 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+    th{
+    width:190px;
+    }
+    @media only screen and (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+.informe h2,h3,h4,h5 {
+text-align:left;
+padding:0px;
+
+}
+#tablainforme table,th,td{
+
+border: solid 1px black;
+text-align:center
+}
+</style>
+<div id="content">
+    <h3 style="text-align:center;"><img src="{%static 'images/muestra.png'%}" height=40>{{object}}</h3>
+    <hr>
+    <p><i class="fa fa-industry" aria-hidden="true"></i> Empresa: <a href="{%url 'cliente' muestra.muestreo.cliente.pk %}">{{muestra.muestreo.cliente|upper}}</a> <button style="background-color:#ff6a00; color:white;" class="btn btn-warning" onclick="window.location.href='{%url 'informe' object.pk %}'"><i class="fa fa-print"></i>  informe </button></p>
+    <p><i class="fa fa-info-circle" aria-hidden="true"></i>  Información sobre la muestra: {{object.informacion}}</p>
+    <p><i class="fa fa-calendar" aria-hidden="true"></i>  Fecha de recogida: {{object.muestreo.fecha}}</p>
+    <p><i class="fa fa-eye" aria-hidden="true"></i>  Observaciones: {{muestra.observaciones}}</p>
+    <br>
+    <button class="btn btn-warning" onclick='window.location.href="{%url 'editarmuestra' object.pk %}"'><i class="fa fa-edit" aria-hidden="true"></i> Editar muestra</button>
+    <button class="btn btn-danger" onclick="borrarmuestra()"><i class="fa fa-trash" aria-hidden="true"></i> Borrar muestra</button>
+    <button hidden id="borrar" onclick="window.location.href='{%url 'borrarmuestra' object.pk %}'"> Borrar muestra</button>
+    <hr>
+    <br>
+    <h5>Resultados</h5>
+<div id="parametros">
+    <table>
+        <tr>
+            <th style="min-width:230px;"><img src="{%static 'images/parametros.png'%}" height="20"> Parámetros</th>
+            {%if muestra.numero_muestras is 5 %}
+            <th>N1</th> <th>N2</th> <th>N3</th> <th>N4</th> <th>N5</th><th>Informe</th>
+        </tr>
+
+        {%for parametro in muestra.parametros.all%}
+        <tr>
+            <td>{{parametro}}</td> {% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}<td> {{resultado.n1}}</td> <td>{{resultado.n2}}</td> <td>{{resultado.n3}}</td> <td>{{resultado.n4}}</td> <td>{{resultado.n5}}</td><td>{{resultado.get_informe_display}}</td> {%endif%}{%endfor%}
+
+        </tr>
+        {%endfor%}
+        {%endif%}
+
+
+        {%if muestra.numero_muestras is 4 %}
+        <th>N1</th> <th>N2</th> <th>N3</th> <th>N4</th><th>Informe</th>
+        </tr>
+
+        {%for parametro in muestra.parametros.all%}
+        <tr>
+            <td>{{parametro}}</td> {% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}<td> {{resultado.n1}}</td> <td>{{resultado.n2}}</td> <td>{{resultado.n3}}</td> <td>{{resultado.n4}}</td><td>{{resultado.get_informe_display}}</td> {%endif%}{%endfor%}
+
+        </tr>
+        {%endfor%}
+        {%endif%}
+
+        {%if muestra.numero_muestras is 3 %}
+        <th>N1</th> <th>N2</th> <th>N3</th><th>Informe</th>
+        </tr>
+
+        {%for parametro in muestra.parametros.all%}
+        <tr>
+            <td>{{parametro}}</td> {% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}<td> {{resultado.n1}}</td> <td>{{resultado.n2}}</td> <td>{{resultado.n3}}</td><td>{{resultado.get_informe_display}}</td> {%endif%}{%endfor%}
+
+        </tr>
+        {%endfor%}
+        {%endif%}
+        {%if muestra.numero_muestras is 2 %}
+        <th>N1</th> <th>N2</th><th>Informe</th>
+        </tr>
+
+        {%for parametro in muestra.parametros.all%}
+        <tr>
+            <td>{{parametro}}</td> {% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}<td> {{resultado.n1}}</td> <td>{{resultado.n2}}</td><td>{{resultado.get_informe_display}}</td> {%endif%}{%endfor%}
+
+        </tr>
+        {%endfor%}
+        {%endif%}
+
+        {%if muestra.numero_muestras is 1 %}
+        <th>N1</th><th>Informe</th>
+        </tr>
+
+        {%for parametro in muestra.parametros.all%}
+        <tr>
+            <td>{{parametro}}</td> {% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}<td> {{resultado.n1}}</td><td>{{resultado.get_informe_display}}</td> {%endif%}{%endfor%}
+
+        </tr>
+        {%endfor%}
+        {%endif%}
+
+    </table>
+</div>
+    <br>
+<div> {%if not muestra.muestra_resultado.all%}<button class="btn btn-success" onclick='window.location.href="{%url 'crearresultado' object.pk%}"'><i class="fa fa-plus" aria-hidden="true"></i>  Agregar resultados</button>{%endif%}{%if muestra.muestra_resultado.all%}<button onclick='window.location.href="{%url 'editarresultado' object.pk%}"' class="btn btn-warning"><i class="fa fa-edit" aria-hidden="true"></i> Editar resultados</button>{%endif%} </div>
+
+
+
+<hr>
+
+
+<br>
+<br>
+</div>
+<script>
+function borrarmuestra(){
+        var r = confirm("¿Estás seguro que deseas borrar este muestra?")
+        if (r == true) {
+            document.getElementById("borrar").onclick()
+        }
+    };
+
+</script>
+
+{%endblock%}

@@ -1,0 +1,91 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    overflow-x:scroll;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+    th{
+    width:190px;
+    }
+    @media only screen and (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+</style>
+<div id="content">
+    <h3><img src="{%static 'images/pacienteicon.png'%}" height=40> {{cliente}}</h3>
+    <hr>
+    <p><b><i class="fa fa-phone" aria-hidden="true"></i> Teléfono:</b> {{cliente.telefono}}</p>
+    <p><b><i class="fa fa-address-book" aria-hidden="true"></i> Dirección:</b> {{cliente.direccion}}</p>
+    <p><b><i class="fa fa-envelope" aria-hidden="true"></i> Email:</b> {{cliente.email}}</p>
+    <p><b><i class="fa fa-retweet" aria-hidden="true"></i> Frecuencia de recogida de muestras:</b> {{cliente.get_frecuencia_display}}</p>
+    {%if cliente.frecuencia != 0%}{%if cliente.muestra_cliente.all%}<p><b><i class="fa fa-calendar" aria-hidden="true"></i> Próximo muestreo:</b> {{cliente.proxima_visita}}</p>{%endif%}{%endif%}
+</div>
+<hr>
+<hr>
+
+<table style="width:95%;" id="tabla_muestras_cliente" class="display">
+    <thead>
+    <tr>
+        <th>Fecha recogida</th>
+        <th>Muestra</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {%for muestreo in cliente.muestra_cliente.all%}
+        {%for muestra in muestreo.muestra_muestreo.all%}
+    <tr>
+
+        <td><i class="fa fa-calendar"></i> {{muestra.muestreo.fecha}}</td>
+        <td><a href="{%url 'muestra' muestra.pk%}"> <img src="{%static 'images/muestra.png'%}" height="20"> {{muestra}}</a></td>
+    </tr>
+    {%endfor%}
+    {%endfor%}
+    </tbody>
+</table>
+
+<div style="text-align:center; padding:5%; "> <button class="btn btn-warning" onclick='window.location.href="{%url 'editarcliente' object.pk %}"'><i class="fa fa-edit" aria-hidden="true"></i>  Editar cliente</button> <button class="btn btn-danger" onclick='borrarcliente()'><i class="fa fa-trash" aria-hidden="true"></i>  Borrar cliente</button></div>
+</div>
+<button hidden id="borrar" onclick="window.location.href='{%url 'clienteborrar' object.pk %}'"></button>
+
+
+<script>
+function borrarcliente(){
+        var r = confirm("¿Estás seguro que deseas borrar este cliente?\nSi lo borras, borrarás también todos los muestreos asociados.")
+        if (r == true) {
+            document.getElementById("borrar").onclick()
+        }
+    };
+</script>
+
+{%endblock%}
+

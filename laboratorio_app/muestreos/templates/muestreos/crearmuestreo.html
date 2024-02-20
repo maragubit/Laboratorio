@@ -1,0 +1,26 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    max-width:600px;
+    margin-left:auto;
+    margin-right:auto;
+    }
+</style>
+<div id="content">
+
+
+    <h2><img src="{%static 'images/dietas.png'%}" height=40>Crear nuevo muestreo</h2>
+    <br>
+    <form style="width60%;" method="post">{% csrf_token %}
+    {{form}}
+        <div style="text-align:center; padding:5%; "> <button class="btn btn-success"> Crear muestreo</button></div>
+
+    </form>
+</div>
+
+{%endblock%}

@@ -1,0 +1,74 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width:100%;
+}
+h1,h2,h3,h4,h5{
+text-align:center;
+
+}
+.dataTables_wrapper {
+    position: relative;
+    clear: both;
+    overflow-x:scroll;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#contenido{
+width:90%;
+margin-left:auto;
+margin-right:auto;
+}
+@media only screen and (max-width: 600px){
+#portada {
+    width:90%;
+}
+}
+</style>
+<br>
+<div id="contenido">
+<h4><img src="{%static 'images/calendar.png'%}" width="40"> Visitas programadas para {{mes}}:</h4>
+    <br>
+    <ul>
+    {%for cliente in clientes%}{%if cliente.proxima_visita.month is hoy.month%}{%if cliente.muestra_cliente.all%}
+        <li><a href="{%url 'cliente' cliente.pk%}"><i class="fa fa-industry" aria-hidden="true"></i> {{cliente}}</a> | <i class="fa fa-calendar" aria-hidden="true"></i>  fecha estimada de muestreo: {{cliente.proxima_visita}}</li>
+    {%endif%}{%endif%}{%endfor%}</ul>
+    <hr>
+    <hr>
+    <br>
+    <h5>Clientes con visitas programadas:</h5>
+    <table style="width:95%;" id="tabla_clientes" class="display">
+        <thead>
+        <tr>
+            <th><i class="fa fa-industry" aria-hidden="true"></i> Empresa</th>
+            <th><i class="fa fa-calendar" aria-hidden="true"></i> Fecha próximo muestreo</th>
+            <th><i class="fa fa-retweet" aria-hidden="true"></i> Frecuencia de muestreos</th>
+            <th><i class="fa fa-fast-forward" aria-hidden="true"></i> Último muestreo</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {%for cliente in clientes%}
+        {%if cliente.proxima_visita%}
+        <tr>
+            <td><a href="{%url 'cliente' cliente.pk%}">{{cliente.nombre}}</a></td>
+            <td>{{cliente.proxima_visita}}</td>
+            <td>{{cliente.get_frecuencia_display}}</td>
+            <td>{{cliente.muestra_cliente.first.fecha}}</td>
+        </tr>
+        {%endif%}
+        {%endfor%}
+        </tbody>
+    </table>
+
+
+</div>
+{%endblock%}

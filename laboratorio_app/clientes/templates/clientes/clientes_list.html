@@ -1,0 +1,52 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3,h4,h5,h6 {
+    text-align:center;
+    }
+
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    overflow-x:scroll;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+a{
+ color:darkgreen;
+}
+a:hover{
+ color:green;
+ text-decoration: none;
+}
+
+</style>
+<h3><img src="{% static 'images/pacienteicon.png'%}" height="50px"> Clientes</h3>
+<div style="text-align:center; padding:5%; "> <button class="btn btn-success" onclick='window.location.href="{%url 'clientecreate'%}"'><i class="fa fa-plus" aria-hidden="true"></i> Añadir cliente</button></div>
+
+<table style="width:95%;" id="tabla_clientes" class="display">
+    <thead>
+    <tr>
+        <th><i class="fa fa-industry" aria-hidden="true"></i> Empresa</th>
+        <th><i class="fa fa-phone" aria-hidden="true"></i> Teléfono</th>
+        <th><i class="fa fa-address-book" aria-hidden="true"></i> Dirección</th>
+        <th><i class="fa fa-envelope" aria-hidden="true"></i> Email</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {%for cliente in clientes%}
+    <tr>
+        <td><a href="{%url 'cliente' cliente.pk%}">{{cliente.nombre}}</a></td>
+        <td>{{cliente.telefono}}</td>
+        <td>{{cliente.direccion}}</td>
+        <td>{{cliente.email}}</td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+{%endblock%}

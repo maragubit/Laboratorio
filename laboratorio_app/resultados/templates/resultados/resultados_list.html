@@ -1,0 +1,61 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width:95%;
+}
+h1,h2,h3,h4,h5{
+text-align:center;
+
+}
+@media only screen and (max-width: 600px){
+#portada {
+    width:90%;
+}
+}
+ .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    overflow-x:scroll;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+a{
+ color:darkgreen;
+}
+a:hover{
+ color:green;
+ text-decoration: none;
+}
+</style>
+<h3><img src="{% static 'images/petri.png'%}"height="50px"> Resultados</h3>
+<div class="center">
+    <p style="text-align:center">Elige la muestra a la que asignar o editar los resultados</p>
+    <br>
+    <table style="width:95%;" id="tabla_muestreos" class="display">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Muestreo</th>
+            <th>Muestras</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%for muestreo in muestreos%}
+        <tr>
+            <td><img src="{% static 'images/calendar.png'%}"height="20">{{muestreo.fecha}}</td>
+            <td><img src="{% static 'images/dietas.png'%}"height="20"> {{muestreo}} {{muestreo.cliente}}</td>
+            <td>{%for muestra in muestreo.muestra_muestreo.all%}<p><a> <a href="{%url 'resultado' muestra.pk%}"><img src="{% static 'images/muestra.png'%}"height="15"> {{muestra}}</a></p>{%endfor%}</td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+</div>
+{%endblock%}

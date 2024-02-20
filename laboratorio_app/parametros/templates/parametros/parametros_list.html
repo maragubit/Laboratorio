@@ -1,0 +1,53 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3,h4,h5,h6 {
+    text-align:center;
+    }
+
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    overflow-x:scroll;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+a{
+ color:darkgreen;
+}
+a:hover{
+ color:green;
+ text-decoration: none;
+}
+</style>
+
+<h3><img src="{% static 'images/parametros.png'%}" height="50px"> Parametros</h3>
+<div style="text-align:center; padding:5%; "> <button class="btn btn-success" onclick='window.location.href="{%url 'crearparametro'%}"'><i class="fa fa-plus" aria-hidden="true"></i> Crear Parametro</button></div>
+
+<table style="width:95%;" id="tabla_parametros" class="display">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Método de ensayo</th>
+        <th>Dilución</th>
+        <th>Nombre en informes</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {%for parametro in parametros%}
+    <tr>
+        <td><a href="{%url 'parametro' parametro.pk%}">{{parametro.nombre}}</a></td>
+        <td>{{parametro.metodo_ensayo}}</td>
+        <td>{{parametro.dilucion}}</td>
+        <td>{{parametro.nombre_informe}}</td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+{%endblock%}

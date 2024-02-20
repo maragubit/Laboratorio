@@ -1,0 +1,23 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    max-width:900px;
+    margin:5%;
+    }
+</style>
+<div id="content">
+
+    <form method="post" >{% csrf_token %}
+        {{form.as_p}}
+        {{ form.media }}
+
+        <button type="submit" class="btn btn-success">Añadir muestra</button>
+
+    </form>
+
+{%endblock%}

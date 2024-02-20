@@ -1,0 +1,151 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3,h4 {
+    text-align:center;
+    }
+    #muestreos{
+    margin-left:5%;
+
+    }
+    th{
+    width:200px;
+    text-align:center;
+    }
+    td{
+
+    text-align:center
+    }
+    @media only screen and (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+</style>
+<br>
+<br>
+<br>
+<br>
+<button style="margin-left:5%" class="btn btn-warning" type="button" onclick="PrintElem()">imprimir</button>
+<div id="contenido">
+<h2 style="text-align:center">{{fecha}}</h2>
+<br>
+<div id="muestreos">
+{%for muestreo in muestreos%}
+    <h4 style="text-align:center"><img src="{%static 'images/dietas.png'%}" height="30"> {{muestreo}} {{muestreo.cliente}}</h4>
+    <br>
+
+    <div id="muestras">
+        {%for muestra in muestreo.muestra_muestreo.all reversed %}
+        <h5><img src="{%static 'images/muestra.png'%}" height="20"> <a href="{%url 'muestra' muestra.id%}">{{muestra}}</a> | información sobre la muestra: {{muestra.informacion}} | observaciones: {{muestra.observaciones}}</h5>
+        <div id="parametros">
+            <table>
+                <tr>
+                    <th style="min-width:230px;"><img src="{%static 'images/parametros.png'%}" height="20"> Parámetros</th>
+                    {%if muestra.numero_muestras is 5 %}
+                    <th>---N1---</th> <th>---N2---</th> <th>---N3---</th> <th>---N4---</th> <th>---N5---</th>
+                </tr>
+
+                        {%for parametro in muestra.parametros.all%}
+                <tr>
+                    <td style="text-align:left;">{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n5}} {%endif%}{%endfor%}</td>
+
+                </tr>
+                        {%endfor%}
+                    {%endif%}
+                {%if muestra.numero_muestras is 4 %}
+                <th>---N1---</th> <th>---N2---</th> <th>---N3---</th> <th>---N4---</th>
+                </tr>
+
+                {%for parametro in muestra.parametros.all%}
+                <tr>
+                    <td style="text-align:left;">{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n4}} {%endif%}{%endfor%}</td>
+                </tr>
+                {%endfor%}
+                {%endif%}
+
+                {%if muestra.numero_muestras is 3 %}
+                <th>---N1---</th> <th>---N2---</th> <th>---N3---</th>
+                </tr>
+
+                {%for parametro in muestra.parametros.all%}
+                <tr>
+                    <td style="text-align:left;">{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n3}} {%endif%}{%endfor%}</td>
+                </tr>
+                {%endfor%}
+                {%endif%}
+
+                {%if muestra.numero_muestras is 2 %}
+                <th>---N1---</th> <th>---N2---</th>
+                </tr>
+
+                {%for parametro in muestra.parametros.all%}
+                <tr>
+                    <td style="text-align:left;">{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n2}} {%endif%}{%endfor%}</td>
+                </tr>
+                {%endfor%}
+                {%endif%}
+
+                {%if muestra.numero_muestras is 1 %}
+                <th>---N1---</th>
+                </tr>
+
+                {%for parametro in muestra.parametros.all%}
+                <tr>
+                    <td style="text-align:left;">{{parametro}}</td> <td>{% for resultado in parametro.parametro_resultado.all%}{%if resultado.muestra == muestra %}{{resultado.n1}} {%endif%}{%endfor%}</td>
+                </tr>
+
+                {%endfor%}
+
+                {%endif%}
+
+            </table>
+
+
+        </div>
+        <br>
+        {%endfor%}
+        <hr>
+        <hr>
+        <br>
+        <br>
+    </div>
+    {%endfor%}
+</div>
+</div>
+<script type="text/javascript" src="{% static 'pdfmake/pdfmake.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'pdfmake/pdfmake.js.maps'%}"></script>
+<script type="text/javascript" src="{% static 'pdfmake/vsf_fonts.js'%}"></script>
+<script type="text/javascript" src="{% static 'pdfmake/canvas.min.js'%}"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script>
+function PrintElem()
+{
+    var mywindow = window.open('', 'PRINT', 'height=1000,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(document.getElementById('contenido').innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
+</script>
+{%endblock%}

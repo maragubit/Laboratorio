@@ -1,0 +1,66 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3{
+    text-align:center;
+    }
+    #content {
+    width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    }
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    overflow-x:scroll;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+    th{
+    width:190px;
+    }
+    @media only screen and (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x:scroll;
+    white-space: nowrap;
+}
+th{
+width:auto;
+}
+}
+
+tr{
+    height:50px;
+
+}
+</style>
+<div id="content">
+    <h3><img src="{%static 'images/parametros.png'%}" height=40> {{parametro}}</h3>
+    <p>Nombre con el que aparece en los informes: {{parametro.nombre_informe}}</p>
+    <p>Método de ensayo:  {{parametro.metodo_ensayo}}</p>
+    <p>Dilución: {{parametro.dilucion}}</p>
+    <p>Determinar presencia/ausencia: {{parametro.presencia}}</p>
+</div>
+
+
+<div style="text-align:center; padding:5%; "> <button class="btn btn-warning" onclick='window.location.href="{%url 'editarparametro' object.pk %}"'> Editar parámetro</button> <button class="btn btn-danger" onclick=" borrarparametro()"> Borrar parámetro</button></div>
+</div>
+<button hidden id="borrar" onclick="window.location.href='{%url 'borrarparametro' object.pk %}'"></button>
+
+
+<script>
+function borrarparametro() {
+        var r = confirm("¿Estás seguro que deseas borrar este parámetro?")
+        if (r == true) {
+            document.getElementById("borrar").onclick()
+        }
+    };
+</script>
+
+{%endblock%}
+

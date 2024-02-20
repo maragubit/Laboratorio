@@ -1,0 +1,49 @@
+{%extends 'core/base.html'%}
+{%load static%}
+{%block content%}
+<style>
+    h1,h2,h3,h4,h5,h6 {
+    text-align:center;
+    }
+
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    *zoom: 1;
+    zoom: 1;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+a{
+ color:darkgreen;
+}
+a:hover{
+ color:green;
+ text-decoration: none;
+}
+</style>
+<h3><img src="{% static 'images/dietas.png'%}" height="50px">Muestreos</h3>
+<div style="text-align:center; padding:5%; "> <button class="btn btn-success" onclick='window.location.href="{%url 'crearmuestreo' %}"'><i class="fa fa-plus" aria-hidden="true"></i>  Crear muestreo</button></div>
+
+<table style="width:95%;" id="tabla_muestreos" class="display">
+    <thead>
+    <tr>
+        <th> Fecha</th>
+        <th> Muestreo</th>
+        <th> Muestras</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for muestreo in muestreos%}
+    <tr>
+        <td><a href="{%url 'muestreosfecha' muestreo.pk %}"><img src="{% static 'images/calendar.png'%}"height="15"> {{muestreo.fecha}}</a></td>
+        <td><a href="{%url 'muestreo' muestreo.pk%}"><img src="{% static 'images/dietas.png'%}"height="20"> {{muestreo}} {{muestreo.cliente}}</a></td>
+        <td>{%for muestra in muestreo.muestra_muestreo.all%}<p><a href="{%url 'muestra' muestra.id%}"> <img src="{% static 'images/muestra.png'%}"height="15">{{muestra}}</a></p>{%endfor%}</td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+
+
+{%endblock%}
